@@ -57,9 +57,11 @@ app.get('/api/health', (_req, res) => {
 
 // Serve React en producción
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '../build')));
+  // En dist/server/server.js, el build de React está en ../../build
+  const buildPath = path.join(__dirname, '../../build');
+  app.use(express.static(buildPath));
   app.get('*', (_req, res) => {
-    res.sendFile(path.join(__dirname, '../build/index.html'));
+    res.sendFile(path.join(buildPath, 'index.html'));
   });
 }
 

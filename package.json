@@ -6,7 +6,7 @@
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "client": "react-scripts start",
     "server": "ts-node server/server.ts",
-    "build": "react-scripts build && tsc --outDir dist --noEmit false",
+    "build": "react-scripts build && tsc --outDir dist",
     "start": "node dist/server/server.js",
     "postinstall": "prisma generate",
     "prisma:migrate": "prisma migrate dev",
