@@ -1,0 +1,152 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Usuario {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  nombre    String
+  rol       Rol
+  rut       String?
+  banco     String?
+  numeroCuenta String?
+  tipoCuenta TipoCuenta?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  rendiciones  Rendicion[]
+
+  @@map("usuarios")
+}
+
+model Rendicion {
+  id                   String   @id @default(uuid())
+  nombreRendidor       String
+  rutRendidor          String?
+  emailRendidor        String?
+  fechaPeriodoDesde    DateTime
+  fechaPeriodoHasta    DateTime
+  zona                 String
+  estado               EstadoRendicion @default(enviada)
+  montoTotal           Decimal  @db.Decimal(12, 2)
+  fechaEnvio           DateTime @default(now())
+  fechaAprobacion      DateTime?
+  fechaPago            DateTime?
+  comentarioAutoriza   String?
+  firmaDigitalRendidor String?
+  firmaDigitalNaiffa   String?
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  usuarioId String?
+  usuario   Usuario? @relation(fields: [usuarioId], references: [id])
+
+  boletas       Boleta[]
+  historialPagos HistorialPago[]
+  logsCorreos   LogCorreo[]
+
+  @@map("rendiciones")
+}
+
+model Boleta {
+  id           String   @id @default(uuid())
+  numeroBoleta String
+  monto        Decimal  @db.Decimal(12, 2)
+  detalleGasto String
+  fechaBoleta  DateTime
+  proveedor    String?
+  fotoUrl      String?
+  ocrData      Json?
+  createdAt    DateTime @default(now())
+
+  rendicionId String
+  rendicion   Rendicion @relation(fields: [rendicionId], references: [id], onDelete: Cascade)
+
+  @@map("boletas")
+}
+
+model DatosBancarios {
+  id           String     @id @default(uuid())
+  rutRendidor  String     @unique
+  nombreBanco  String
+  numeroCuenta String
+  tipoCuenta   TipoCuenta
+  fechaRegistro DateTime  @default(now())
+  esActiva     Boolean    @default(true)
+
+  @@map("datos_bancarios")
+}
+
+model HistorialPago {
+  id                    String              @id @default(uuid())
+  fechaPago             DateTime            @default(now())
+  referenciaPago        String?
+  montoTransferido      Decimal             @db.Decimal(12, 2)
+  estadoTransferencia   EstadoTransferencia @default(iniciada)
+  comprobanteUrl        String?
+  createdAt             DateTime            @default(now())
+
+  rendicionId String
+  rendicion   Rendicion @relation(fields: [rendicionId], references: [id])
+
+  @@map("historial_pagos")
+}
+
+model LogCorreo {
+  id          String        @id @default(uuid())
+  tipoEvento  TipoEvento
+  destinatario String
+  asunto      String
+  contenido   String        @db.Text
+  estadoEnvio EstadoEnvio
+  fechaEnvio  DateTime      @default(now())
+
+  rendicionId String?
+  rendicion   Rendicion? @relation(fields: [rendicionId], references: [id])
+
+  @@map("logs_correos")
+}
+
+enum Rol {
+  rendidor
+  naiffa
+  secretaria
+  admin
+}
+
+enum EstadoRendicion {
+  enviada
+  aprobada
+  rechazada
+  pagada
+}
+
+enum TipoCuenta {
+  corriente
+  ahorro
+  vista
+}
+
+enum EstadoTransferencia {
+  iniciada
+  completada
+  rechazada
+}
+
+enum TipoEvento {
+  rendicion_enviada
+  rendicion_aprobada
+  rendicion_rechazada
+  pago_procesado
+}
+
+enum EstadoEnvio {
+  enviado
+  fallo
+}
