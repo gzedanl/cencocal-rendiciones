@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from 'react';
+import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { Boleta, ZONAS, EMPRESAS_GRUPO } from '../types';
 import api from '../services/api';
@@ -20,6 +20,13 @@ export default function RendidorPage() {
   const [periodoHasta, setPeriodoHasta] = useState('');
   const [zona, setZona] = useState('');
   const [empresa, setEmpresa] = useState(empresasDisponibles[0]);
+
+  // Actualiza empresa cuando carga el usuario con sus empresas reales
+  useEffect(() => {
+    if (empresasDisponibles.length > 0) {
+      setEmpresa(prev => empresasDisponibles.includes(prev) ? prev : empresasDisponibles[0]);
+    }
+  }, [usuario?.empresas]);
   const [boletas, setBoletas] = useState<BoletaForm[]>([]);
   const [enviando, setEnviando] = useState(false);
   const [exito, setExito] = useState(false);
