@@ -205,7 +205,7 @@ export default function AutorizadorPage() {
                       <td className="p-2 border border-gray-200 text-center">
                         {b.fotoUrl ? (
                           <button
-                            onClick={() => setFotoAmpliada(`http://localhost:3001${b.fotoUrl}`)}
+                            onClick={() => setFotoAmpliada(`${process.env.REACT_APP_API_URL?.replace('/api', '') || ''}${b.fotoUrl}`)}
                             className="text-blue-600 hover:underline text-xs"
                           >
                             Ver foto
