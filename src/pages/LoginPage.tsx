@@ -74,15 +74,6 @@ export default function LoginPage() {
             {cargando ? 'Ingresando...' : 'Ingresar'}
           </button>
 
-          <div className="mt-6 p-4 bg-gray-50 rounded-lg border border-gray-200">
-            <p className="text-xs font-semibold text-gray-500 mb-2 uppercase tracking-wider">Credenciales de prueba:</p>
-            <div className="space-y-1 text-xs text-gray-600">
-              <p><span className="font-medium">Guillermo:</span> guillermo.zedan@cencocal.cl</p>
-              <p><span className="font-medium">Naiffa:</span> naiffa.chahuan@cencocal.cl</p>
-              <p><span className="font-medium">Secretaria:</span> secretaria@cencocal.cl</p>
-              <p className="text-gray-500">Contraseña: cencocal2024</p>
-            </div>
-          </div>
         </form>
       </div>
     </div>
