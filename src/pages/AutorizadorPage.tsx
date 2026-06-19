@@ -130,6 +130,7 @@ export default function AutorizadorPage() {
                     </span>
                   </div>
                   <div className="flex gap-4 text-sm text-gray-500 flex-wrap">
+                    <span>🏢 {r.empresa}</span>
                     <span>📍 {r.zona}</span>
                     <span>📅 {new Date(r.fechaPeriodoDesde).toLocaleDateString('es-CL')} — {new Date(r.fechaPeriodoHasta).toLocaleDateString('es-CL')}</span>
                     <span>🧾 {r.boletas.length} boleta(s)</span>

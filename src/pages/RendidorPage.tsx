@@ -1,6 +1,6 @@
 import React, { useState, useRef, useCallback } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { Boleta, ZONAS } from '../types';
+import { Boleta, ZONAS, EMPRESAS_GRUPO } from '../types';
 import api from '../services/api';
 import { createWorker } from 'tesseract.js';
 
@@ -14,10 +14,12 @@ interface BoletaForm extends Boleta {
 
 export default function RendidorPage() {
   const { usuario } = useAuth();
+  const empresasDisponibles = usuario?.empresas?.length ? usuario.empresas : ['Cencocal S.A.'];
   const [nombre, setNombre] = useState(usuario?.nombre || '');
   const [periodoDesde, setPeriodoDesde] = useState('');
   const [periodoHasta, setPeriodoHasta] = useState('');
   const [zona, setZona] = useState('');
+  const [empresa, setEmpresa] = useState(empresasDisponibles[0]);
   const [boletas, setBoletas] = useState<BoletaForm[]>([]);
   const [enviando, setEnviando] = useState(false);
   const [exito, setExito] = useState(false);
@@ -116,6 +118,7 @@ export default function RendidorPage() {
       formData.append('periodoDesde', periodoDesde);
       formData.append('periodoHasta', periodoHasta);
       formData.append('zona', zona);
+      formData.append('empresa', empresa);
 
       const boletasData = boletas.map((b, i) => ({
         numeroBoleta: b.numeroBoleta || `BOL-${i + 1}`,
@@ -141,6 +144,7 @@ export default function RendidorPage() {
       setPeriodoDesde('');
       setPeriodoHasta('');
       setZona('');
+      setEmpresa(empresasDisponibles[0]);
       setBoletas([]);
     } catch (e: any) {
       setError(e.response?.data?.error || 'Error enviando rendición');
@@ -204,6 +208,22 @@ export default function RendidorPage() {
               <option value="">Seleccionar zona...</option>
               {ZONAS.map(z => <option key={z} value={z}>{z}</option>)}
             </select>
+          </div>
+          <div className={empresasDisponibles.length === 1 ? 'md:col-span-2' : ''}>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Empresa *</label>
+            {empresasDisponibles.length === 1 ? (
+              <div className="w-full border border-gray-200 rounded-lg px-3 py-2 bg-gray-50 text-gray-600 text-sm">
+                {empresasDisponibles[0]}
+              </div>
+            ) : (
+              <select
+                value={empresa}
+                onChange={e => setEmpresa(e.target.value)}
+                className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              >
+                {empresasDisponibles.map(emp => <option key={emp} value={emp}>{emp}</option>)}
+              </select>
+            )}
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Período desde *</label>

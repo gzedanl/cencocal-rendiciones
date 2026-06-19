@@ -33,7 +33,8 @@ const ROL_LABELS: Record<string, string> = {
   rendidor: 'Rendidor',
 };
 
-const emptyForm = { nombre: '', email: '', password: '', rol: 'rendidor', rut: '', banco: '', numeroCuenta: '', tipoCuenta: '' };
+const EMPRESAS = ['Cencocal S.A.', 'Inmobiliaria Cordillera S.A.'];
+const emptyForm = { nombre: '', email: '', password: '', rol: 'rendidor', rut: '', banco: '', numeroCuenta: '', tipoCuenta: '', empresas: ['Cencocal S.A.'] };
 
 export default function AdminPage() {
   const [usuarios, setUsuarios] = useState<UsuarioAdmin[]>([]);
@@ -63,7 +64,7 @@ export default function AdminPage() {
 
   const abrirEditar = (u: UsuarioAdmin) => {
     setEditando(u);
-    setForm({ nombre: u.nombre, email: u.email, password: '', rol: u.rol, rut: u.rut || '', banco: u.banco || '', numeroCuenta: u.numeroCuenta || '', tipoCuenta: u.tipoCuenta || '' });
+    setForm({ nombre: u.nombre, email: u.email, password: '', rol: u.rol, rut: u.rut || '', banco: u.banco || '', numeroCuenta: u.numeroCuenta || '', tipoCuenta: u.tipoCuenta || '', empresas: (u as any).empresas || ['Cencocal S.A.'] });
     setError('');
     setModalAbierto(true);
   };
@@ -224,6 +225,29 @@ export default function AdminPage() {
                     <option value="secretaria">Secretaria</option>
                     <option value="admin">Administrador</option>
                   </select>
+                </div>
+              </div>
+
+              <div className="border-t border-gray-200 pt-4">
+                <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Empresas Habilitadas</p>
+                <div className="flex gap-4 flex-wrap">
+                  {EMPRESAS.map(emp => (
+                    <label key={emp} className="flex items-center gap-2 text-sm cursor-pointer">
+                      <input
+                        type="checkbox"
+                        checked={form.empresas.includes(emp)}
+                        onChange={e => {
+                          const nuevas = e.target.checked
+                            ? [...form.empresas, emp]
+                            : form.empresas.filter(x => x !== emp);
+                          if (nuevas.length === 0) return; // al menos una
+                          setForm(prev => ({ ...prev, empresas: nuevas }));
+                        }}
+                        className="rounded border-gray-300 text-blue-600"
+                      />
+                      {emp}
+                    </label>
+                  ))}
                 </div>
               </div>
 

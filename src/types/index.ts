@@ -11,7 +11,10 @@ export interface Usuario {
   banco?: string;
   numeroCuenta?: string;
   tipoCuenta?: TipoCuenta;
+  empresas?: string[];
 }
+
+export const EMPRESAS_GRUPO = ['Cencocal S.A.', 'Inmobiliaria Cordillera S.A.'] as const;
 
 export interface Boleta {
   id?: string;
@@ -36,6 +39,7 @@ export interface Rendicion {
   fechaPeriodoDesde: string;
   fechaPeriodoHasta: string;
   zona: string;
+  empresa: string;
   estado: EstadoRendicion;
   montoTotal: number;
   fechaEnvio: string;

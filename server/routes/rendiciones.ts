@@ -81,7 +81,7 @@ router.get('/:id', authMiddleware, async (req: AuthRequest, res: Response) => {
 // POST /api/rendiciones - Crear nueva
 router.post('/', authMiddleware, requireRol('rendidor', 'admin'), upload.array('fotos', 10), async (req: AuthRequest, res: Response) => {
   try {
-    const { nombre, periodoDesde, periodoHasta, zona, boletas: boletasJson } = req.body;
+    const { nombre, periodoDesde, periodoHasta, zona, empresa, boletas: boletasJson } = req.body;
     if (!nombre || !periodoDesde || !periodoHasta || !zona) {
       return res.status(400).json({ error: 'Faltan campos requeridos: nombre, período, zona' });
     }
@@ -107,6 +107,7 @@ router.post('/', authMiddleware, requireRol('rendidor', 'admin'), upload.array('
         fechaPeriodoDesde: new Date(periodoDesde),
         fechaPeriodoHasta: new Date(periodoHasta),
         zona,
+        empresa: empresa || 'Cencocal S.A.',
         estado: 'enviada',
         montoTotal,
         usuarioId: req.user!.id,

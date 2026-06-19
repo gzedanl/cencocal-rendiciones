@@ -25,7 +25,7 @@ router.get('/', authMiddleware, requireRol('admin'), async (_req: AuthRequest, r
 
 // POST /api/usuarios - Crear usuario (solo admin)
 router.post('/', authMiddleware, requireRol('admin'), async (req: AuthRequest, res: Response) => {
-  const { email, nombre, password, rol, rut, banco, numeroCuenta, tipoCuenta } = req.body;
+  const { email, nombre, password, rol, rut, banco, numeroCuenta, tipoCuenta, empresas } = req.body;
   if (!email || !nombre || !password || !rol) {
     return res.status(400).json({ error: 'Email, nombre, contraseña y rol son requeridos' });
   }
@@ -35,7 +35,7 @@ router.post('/', authMiddleware, requireRol('admin'), async (req: AuthRequest, r
 
     const hash = await bcrypt.hash(password, 10);
     const usuario = await prisma.usuario.create({
-      data: { email, nombre, password: hash, rol, rut, banco, numeroCuenta, tipoCuenta },
+      data: { email, nombre, password: hash, rol, rut, banco, numeroCuenta, tipoCuenta, empresas: empresas || ['Cencocal S.A.'] },
       select: { id: true, email: true, nombre: true, rol: true, rut: true, banco: true, numeroCuenta: true, tipoCuenta: true, createdAt: true },
     });
 
@@ -62,7 +62,7 @@ router.put('/:id', authMiddleware, async (req: AuthRequest, res: Response) => {
     return res.status(403).json({ error: 'Sin permisos' });
   }
 
-  const { nombre, email, rol, rut, banco, numeroCuenta, tipoCuenta, passwordNueva } = req.body;
+  const { nombre, email, rol, rut, banco, numeroCuenta, tipoCuenta, passwordNueva, empresas } = req.body;
   try {
     const data: any = {};
     if (nombre) data.nombre = nombre;
@@ -72,6 +72,7 @@ router.put('/:id', authMiddleware, async (req: AuthRequest, res: Response) => {
     if (banco !== undefined) data.banco = banco;
     if (numeroCuenta !== undefined) data.numeroCuenta = numeroCuenta;
     if (tipoCuenta !== undefined) data.tipoCuenta = tipoCuenta;
+    if (esAdmin && empresas) data.empresas = empresas;
     if (passwordNueva) data.password = await bcrypt.hash(passwordNueva, 10);
 
     const usuario = await prisma.usuario.update({

@@ -37,6 +37,7 @@ router.post('/login', async (req: Request, res: Response) => {
         banco: usuario.banco,
         numeroCuenta: usuario.numeroCuenta,
         tipoCuenta: usuario.tipoCuenta,
+        empresas: (usuario as any).empresas ?? ['Cencocal S.A.'],
       },
     });
   } catch (error) {

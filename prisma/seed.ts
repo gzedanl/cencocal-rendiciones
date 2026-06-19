@@ -21,6 +21,7 @@ async function main() {
       banco: 'Banco de Chile',
       numeroCuenta: '00123456789',
       tipoCuenta: TipoCuenta.corriente,
+      empresas: ['Cencocal S.A.', 'Inmobiliaria Cordillera S.A.'],
     },
   });
 

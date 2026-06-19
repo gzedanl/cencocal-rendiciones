@@ -17,6 +17,7 @@ model Usuario {
   banco     String?
   numeroCuenta String?
   tipoCuenta TipoCuenta?
+  empresas  String[]    @default(["Cencocal S.A."])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -33,6 +34,7 @@ model Rendicion {
   fechaPeriodoDesde    DateTime
   fechaPeriodoHasta    DateTime
   zona                 String
+  empresa              String          @default("Cencocal S.A.")
   estado               EstadoRendicion @default(enviada)
   montoTotal           Decimal  @db.Decimal(12, 2)
   fechaEnvio           DateTime @default(now())
