@@ -11,12 +11,12 @@ async function main() {
 
   const rendidor = await prisma.usuario.upsert({
     where: { email: 'guillermo.zedan@cencocal.cl' },
-    update: {},
+    update: { rol: Rol.admin },
     create: {
       email: 'guillermo.zedan@cencocal.cl',
       password: pass,
       nombre: 'Guillermo Zedan',
-      rol: Rol.rendidor,
+      rol: Rol.admin,
       rut: '12.345.678-9',
       banco: 'Banco de Chile',
       numeroCuenta: '00123456789',

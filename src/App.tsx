@@ -8,6 +8,8 @@ import MisRendicionesPage from './pages/MisRendicionesPage';
 import AutorizadorPage from './pages/AutorizadorPage';
 import PagosPage from './pages/PagosPage';
 import ReportesPage from './pages/ReportesPage';
+import AdminPage from './pages/AdminPage';
+import PerfilPage from './pages/PerfilPage';
 
 function ProtectedRoute({ children, roles }: { children: React.ReactNode; roles?: string[] }) {
   const { usuario, cargando } = useAuth();
@@ -69,6 +71,22 @@ export default function App() {
             element={
               <ProtectedRoute roles={['naiffa', 'secretaria', 'admin']}>
                 <ReportesPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute roles={['admin']}>
+                <AdminPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/perfil"
+            element={
+              <ProtectedRoute>
+                <PerfilPage />
               </ProtectedRoute>
             }
           />

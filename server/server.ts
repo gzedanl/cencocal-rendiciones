@@ -12,6 +12,7 @@ import rendicionesRoutes from './routes/rendiciones';
 import boletasRoutes from './routes/boletas';
 import pagosRoutes from './routes/pagos';
 import reportesRoutes from './routes/reportes';
+import usuariosRoutes from './routes/usuarios';
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -49,6 +50,7 @@ app.use('/api/rendiciones', rendicionesRoutes);
 app.use('/api/boletas', boletasRoutes);
 app.use('/api/pagos', pagosRoutes);
 app.use('/api/reportes', reportesRoutes);
+app.use('/api/usuarios', usuariosRoutes);
 
 // Health check
 app.get('/api/health', (_req, res) => {

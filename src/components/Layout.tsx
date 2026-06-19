@@ -3,11 +3,13 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 const navItems = [
-  { path: '/', label: 'Nueva Rendición', icon: '📄', roles: ['rendidor', 'admin'] },
+  { path: '/nueva-rendicion', label: 'Nueva Rendición', icon: '📄', roles: ['rendidor', 'admin'] },
   { path: '/mis-rendiciones', label: 'Mis Rendiciones', icon: '📋', roles: ['rendidor', 'admin'] },
   { path: '/autorizador', label: 'Autorización', icon: '✅', roles: ['naiffa', 'admin'] },
   { path: '/pagos', label: 'Pagos', icon: '💰', roles: ['secretaria', 'admin'] },
   { path: '/reportes', label: 'Reportes', icon: '📊', roles: ['naiffa', 'secretaria', 'admin'] },
+  { path: '/admin', label: 'Usuarios', icon: '👥', roles: ['admin'] },
+  { path: '/perfil', label: 'Mi Perfil', icon: '👤', roles: ['rendidor', 'naiffa', 'secretaria', 'admin'] },
 ];
 
 export default function Layout({ children }: { children: React.ReactNode }) {
