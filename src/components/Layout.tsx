@@ -30,8 +30,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <header className="bg-blue-800 text-white shadow-lg">
         <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <img src="/logo.png" alt="Cencocal" className="h-8 object-contain brightness-0 invert" />
-            <p className="text-blue-300 text-xs hidden sm:block">Rendición de Gastos</p>
+            <span className="text-white font-bold text-lg tracking-wide">CENCOCAL S.A.</span>
+            <span className="text-blue-300 text-xs hidden sm:block">| Rendición de Gastos</span>
           </div>
           <div className="flex items-center gap-4">
             <div className="hidden sm:block text-right">
