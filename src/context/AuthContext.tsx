@@ -23,6 +23,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     if (t && u) {
       setToken(t);
       setUsuario(JSON.parse(u));
+      // Refrescar desde servidor para obtener datos actualizados (ej: empresas)
+      api.defaults.headers.common['Authorization'] = `Bearer ${t}`;
+      api.get('/auth/me').then(res => {
+        setUsuario(res.data);
+        localStorage.setItem('usuario', JSON.stringify(res.data));
+      }).catch(() => {
+        // Token expirado o inválido
+        localStorage.removeItem('token');
+        localStorage.removeItem('usuario');
+        setToken(null);
+        setUsuario(null);
+      });
     }
     setCargando(false);
   }, []);

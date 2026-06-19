@@ -51,7 +51,7 @@ router.get('/me', authMiddleware, async (req: AuthRequest, res: Response) => {
   try {
     const usuario = await prisma.usuario.findUnique({
       where: { id: req.user!.id },
-      select: { id: true, email: true, nombre: true, rol: true, rut: true, banco: true, numeroCuenta: true, tipoCuenta: true },
+      select: { id: true, email: true, nombre: true, rol: true, rut: true, banco: true, numeroCuenta: true, tipoCuenta: true, empresas: true },
     });
     res.json(usuario);
   } catch (error) {
