@@ -27,10 +27,9 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-900 to-blue-700 flex items-center justify-center p-4">
       <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden">
-        <div className="bg-blue-800 px-8 py-6 text-center">
-          <div className="text-4xl mb-2">🏢</div>
-          <h1 className="text-2xl font-bold text-white">Cencocal</h1>
-          <p className="text-blue-200 text-sm mt-1">Sistema de Rendición de Gastos</p>
+        <div className="bg-white px-8 py-6 text-center border-b border-gray-100">
+          <img src="/logo.png" alt="Cencocal" className="h-16 mx-auto object-contain" />
+          <p className="text-gray-500 text-sm mt-2">Sistema de Rendición de Gastos</p>
         </div>
 
         <form onSubmit={handleSubmit} className="px-8 py-8">
